@@ -4,4 +4,4 @@ const models = [
   users,
 ];
 
-modules.exports = models;
+module.exports = models;
