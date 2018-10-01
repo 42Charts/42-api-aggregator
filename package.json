@@ -1,17 +1,17 @@
 {
   "name": "42-charts-database",
-  "version": "0.0.1",
+  "version": "0.0.0",
+  "private": true,
   "description": "database manager for 42-charts",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scripts": "grunt"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yfuks/42-charts-database.git"
   },
   "author": "yfuks",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/yfuks/42-charts-database/issues"
   },
