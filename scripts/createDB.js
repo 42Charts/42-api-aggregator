@@ -1,10 +1,9 @@
-const mysql = require('../mysql');
-
-const createDB = () => {
-  mysql.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`, function (err, result) {
+const createDB = (db, callback) => {
+  db.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`, (err, result) => {
     if (err) {
-      throw err;
+      return callback(err);
     }
+    callback();
   });
 };
 
