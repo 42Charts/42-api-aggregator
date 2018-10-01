@@ -1,12 +1,12 @@
 # 42-charts-database
 
-### INSTALATION
+### INSTALLATION
 
 #### STEP 1 (node_modules)
 $> `npm i`
 
 #### STEP 2 (ENVIRONMENT VARIABLES)
-In the projet root $> `touch .env`
+In the project root $> `touch .env`
 
 then in your file add the folowing keys
 ```gradle
