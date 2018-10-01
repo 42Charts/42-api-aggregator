@@ -15,3 +15,7 @@ DB_USER=root
 DB_PASSWORD=
 DB_NAME=42Charts
 ```
+
+#### STEP 3 (START)
+
+$> `npm run scripts`
