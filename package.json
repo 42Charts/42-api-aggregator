@@ -18,8 +18,10 @@
   "homepage": "https://github.com/yfuks/42-charts-database#readme",
   "dependencies": {
     "async": "^2.6.1",
+    "bottleneck": "^2.11.2",
     "dotenv": "^6.0.0",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "node-fetch": "^2.2.0"
   },
   "devDependencies": {
     "grunt": "^1.0.3",

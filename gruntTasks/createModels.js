@@ -1,4 +1,4 @@
-var mysql = require('../mysql').client;
+var mysql = require('../libraries/mysql').client;
 var createModels = require('../scripts/createModels');
 
 module.exports = (grunt) => {

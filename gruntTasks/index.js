@@ -1,5 +1,3 @@
-const inquirer = require('inquirer');
-
 module.exports = (grunt) => {
   grunt.loadNpmTasks('grunt-extend-config');
   grunt.loadNpmTasks('grunt-prompt');
@@ -17,6 +15,9 @@ module.exports = (grunt) => {
               { name: 'Init database (create db & models)' },
               { name: 'Create DB' },
               { name: 'Create Models' },
+              { name: 'Register campus' },
+              { name: 'Register coalitions' },
+              { name: 'Register Projects' },
               { name: 'Exit' },
             ]
           } ],
@@ -30,6 +31,15 @@ module.exports = (grunt) => {
                 break;
               case 'Create Models':
                 grunt.task.run('create-models');
+                break;
+              case 'Register campus':
+                grunt.task.run('register-campus');
+                break;
+              case 'Register coalitions':
+                grunt.task.run('register-coalitions');
+                break;
+              case 'Register Projects':
+                grunt.task.run('register-projects');
                 break;
               default:
                 break;

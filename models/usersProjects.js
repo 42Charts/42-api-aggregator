@@ -3,6 +3,7 @@ const USERSPROJECTS = (
   "(" +
   "ID INT NOT NULL PRIMARY KEY," +
   "projectID INT," +
+  "userID INT," +
   "status VARCHAR(50)," +
   "validated TINYINT," +
   "finalMark INT," +
