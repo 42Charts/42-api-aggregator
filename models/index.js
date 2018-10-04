@@ -6,8 +6,10 @@ const users = require('./users');
 const locations = require('./locations');
 const clusters = require('./clusters');
 const hosts = require('./hosts');
+const cursus = require('./cursus');
 
 const models = [
+  cursus,
   projects,
   usersProjects,
   campus,

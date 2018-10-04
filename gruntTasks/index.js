@@ -13,10 +13,12 @@ module.exports = (grunt) => {
             default: 'Init database (create db & models)',
             choices: [
               { name: 'Init database (create db & models)' },
+              { name: 'Register simple Models (campus, coalitions, cursus, projects)' },
               { name: 'Create DB' },
               { name: 'Create Models' },
               { name: 'Register campus' },
               { name: 'Register coalitions' },
+              { name: 'Register cursus' },
               { name: 'Register Projects' },
               { name: 'Exit' },
             ]
@@ -32,11 +34,17 @@ module.exports = (grunt) => {
               case 'Create Models':
                 grunt.task.run('create-models');
                 break;
+              case 'Register simple Models (campus, coalitions, cursus, projects)':
+                grunt.task.run('register-simple-models');
+                break;
               case 'Register campus':
                 grunt.task.run('register-campus');
                 break;
               case 'Register coalitions':
                 grunt.task.run('register-coalitions');
+                break;
+              case 'Register cursus':
+                grunt.task.run('register-cursus');
                 break;
               case 'Register Projects':
                 grunt.task.run('register-projects');
@@ -51,6 +59,13 @@ module.exports = (grunt) => {
       },
     },
   });
+
+  grunt.registerTask('register-simple-models', 'Register simple Models (campus, coalitions, cursus, projects)', [
+    'register-campus',
+    'register-coalitions',
+    'register-cursus',
+    'register-projects',
+  ]);
 
   grunt.registerTask('init-database', 'Create database with models', [
       'create-db',
