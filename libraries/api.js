@@ -38,11 +38,12 @@ const call = (endpoint, method, params, body, headers, force) => {
     if (APItoken) {
       fetchHeaders.Authorization = `Bearer ${APItoken.access_token}`;
     }
+    console.info('New Api Call', url);
     limiter.schedule(() => fetch(url, {
       method,
       body,
       headers: fetchHeaders,
-      timeout: 20000,
+      timeout: 25000, // 25 sec we are not to picky with 42Api
     }))
       .then(res => res.json())
       .then(json => {
@@ -63,10 +64,14 @@ const getToken = () => call('/oauth/token', 'POST', {
 }, null, null, true);
 
 const getCampus = () => call('/v2/campus', 'GET', {
-  'page[100]': null,
+  'page[size]': 100,
 });
 
 const getCoalitions = () => call('/v2/coalitions', 'GET', {
+  'page[size]': 100,
+});
+
+const getCursus = () => call('/v2/cursus', 'GET', {
   'page[size]': 100,
 });
 
@@ -75,4 +80,14 @@ const getProjects = (page, size) => call('/v2/projects', 'GET', {
   'page[size]': size,
 });
 
-module.exports = { getCampus, getCoalitions, getProjects };
+const getSubProjects = (projectId) => call(`/v2/projects/${projectId}/projects`, 'GET', {
+  'page[size]': 30,
+});
+
+module.exports = {
+  getCampus,
+  getCoalitions,
+  getCursus,
+  getProjects,
+  getSubProjects,
+};

@@ -1,11 +1,16 @@
 const registerProjects = (projects, db, cb) => {
-  let query = 'INSERT IGNORE INTO PROJECTS (id, name, description, tier) VALUES ?';
+  let query = 'INSERT IGNORE INTO PROJECTS (id, name, parentProjectID, cursusID, tier) VALUES ?';
   let values = [];
   projects.forEach((project) => {
+    let parent = null;
+    if (project.parent) {
+      parent = project.parent.id;
+    }
     values.push([
       project.id,
       project.name,
-      project.description,
+      parent,
+      project.cursus[0].id,
       project.tier,
     ]);
   });
