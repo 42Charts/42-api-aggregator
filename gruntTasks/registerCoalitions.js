@@ -1,5 +1,5 @@
 var api = require('../libraries/api');
-var mysql = require('../libraries/mysql').client;
+var mysql = require('../libraries/mysql').client();
 var registerCoalitions = require('../scripts/registerCoalitions');
 
 module.exports = (grunt) => {
