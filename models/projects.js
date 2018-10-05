@@ -7,8 +7,7 @@ const PROJECTS = (
   "tier TINYINT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (parentProjectID) REFERENCES projects(ID)," +
-  "FOREIGN KEY (cursusID) REFERENCES cursus(ID)" +
+  "FOREIGN KEY (parentProjectID) REFERENCES projects(ID)" +
   ") ENGINE = InnoDB;"
 );
 

@@ -11,12 +11,12 @@ const cursus = require('./cursus');
 const models = [
   cursus,
   projects,
-  usersProjects,
   campus,
   coalitions,
   clusters,
   hosts,
   users,
+  usersProjects,
   locations,
 ];
 
