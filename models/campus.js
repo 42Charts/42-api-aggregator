@@ -8,7 +8,7 @@ const CAMPUS = (
   "address VARCHAR(255)," +
   "timeZone VARCHAR(100)," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
-  ")"
+  ") ENGINE = InnoDB;"
 );
 
 module.exports = CAMPUS;
