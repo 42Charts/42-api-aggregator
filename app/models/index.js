@@ -12,18 +12,18 @@ const projectsCursus = require('./projectsCursus');
 const usersCampus = require('./usersCampus');
 
 const models = [
-  cursus,
-  projects,
-  projectsCursus,
-  campus,
-  coalitions,
+  cursus, // done
+  projects, // done
+  projectsCursus, // done
+  campus, // done
+  coalitions, // done
   clusters,
   hosts,
-  users,
-  usersProjects,
-  locations,
-  usersCursus,
-  usersCampus,
+  users, // done
+  usersProjects, // done
+  usersCursus, // done
+  usersCampus, // done
+  locations, // @TODO after users (in it do hosts/clusters)
 ];
 
 module.exports = models;
