@@ -1,6 +1,6 @@
-var api = require('../libraries/api');
-var mysql = require('../libraries/mysql').client();
-var registerCursus = require('../scripts/registerCursus');
+var api = require('../app/libraries/api');
+var mysql = require('../app/libraries/mysql').client();
+var registerCursus = require('../app/functions/registerCursus');
 
 module.exports = (grunt) => {
   grunt.task.registerTask('register-cursus', 'Fill cursus table', function () {

@@ -1,7 +1,7 @@
 var async = require('async');
-var api = require('../libraries/api');
-var mysql = require('../libraries/mysql').client();
-var registerProjects = require('../scripts/registerProjects');
+var api = require('../app/libraries/api');
+var mysql = require('../app/libraries/mysql').client();
+var registerProjects = require('../app/functions/registerProjects');
 
 module.exports = (grunt) => {
   grunt.task.registerTask('register-projects', 'Fill projects table', function () {
@@ -11,7 +11,7 @@ module.exports = (grunt) => {
         done(error);
         return;
       }
-      const pageSize = 30;
+      const pageSize = 50;
       let page = 1; // intra start page 1 (omegalol)
       let resLength = pageSize;
       async.whilst(

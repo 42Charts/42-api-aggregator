@@ -2,24 +2,30 @@ const fetch = require('node-fetch');
 const Bottleneck = require('bottleneck');
 
 let APItoken = null;
+const TOKENLIFETIMEINSECONDS = 7200;
 
 const limiter = new Bottleneck({
   maxConcurrent: 2,
-  minTime: 1000 / process.env.FT_API_RATE_LIMIT_PER_SECOND || 500,
-  reservoir: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1200,
-  reservoirRefreshAmount: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1200,
+  minTime: 1000 / (process.env.FT_API_RATE_LIMIT_PER_SECOND || 1.8), // we don't set to 2s since sometimes api doesn't keep up
+  reservoir: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150, // we don't set to 1200 for the same reason
+  reservoirRefreshAmount: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150, // we don't set to 1200 for the same reason
   reservoirRefreshInterval: 60 * 1000 * 60, // one hour
 });
 
-const call = (endpoint, method, params, body, headers, force) => {
+const call = (endpoint, method, params, force) => {
   let currentDate = new Date();
-  currentDate.setUTCHours(13);
-  currentDate = currentDate.getTime() / 1000;
-  if (!force && (!APItoken || (APItoken.created_at + APItoken.expires_in) < currentDate)) {
+  let tokenExpirationDate = new Date();
+
+  if (APItoken) {
+    tokenExpirationDate.setTime((APItoken.created_at + TOKENLIFETIMEINSECONDS) * 1000);
+  }
+  if (!force && (!APItoken || currentDate.getTime() > tokenExpirationDate.getTime())) {
     return getToken()
       .then((token) => {
         APItoken = token;
-        return call(endpoint, method, params, body, headers);
+        tokenExpirationDate.setTime((APItoken.created_at + TOKENLIFETIMEINSECONDS) * 1000);
+        console.log('Token expire =>', tokenExpirationDate);
+        return call(endpoint, method, params);
       });
   }
   return new Promise((resolve, reject) => {
@@ -34,18 +40,23 @@ const call = (endpoint, method, params, body, headers, force) => {
         }
       });
     }
-    let fetchHeaders = headers || {};
+    let fetchHeaders = {};
     if (APItoken) {
       fetchHeaders.Authorization = `Bearer ${APItoken.access_token}`;
     }
     console.info('New Api Call', url);
     limiter.schedule(() => fetch(url, {
       method,
-      body,
       headers: fetchHeaders,
       timeout: 25000, // 25 sec we are not to picky with 42Api
     }))
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error('42API said: ' + res.statusText + ' for ' + url);
+        }
+      })
       .then(json => {
         if (json.error) {
           return reject(json);
@@ -61,7 +72,7 @@ const getToken = () => call('/oauth/token', 'POST', {
   grant_type: 'client_credentials',
   client_id: process.env.FT_API_UID,
   client_secret: process.env.FT_API_SECRET,
-}, null, null, true);
+}, true);
 
 const getCampus = () => call('/v2/campus', 'GET', {
   'page[size]': 100,
@@ -84,10 +95,31 @@ const getSubProjects = (projectId) => call(`/v2/projects/${projectId}/projects`,
   'page[size]': 30,
 });
 
+const getUsers = (page, size) => call('/v2/users', 'GET', {
+  'page[number]': page,
+  'page[size]': size,
+});
+
+const getUser = (userId) => call(`/v2/users/${userId}`, 'GET');
+
+const getUsersCursus = (page, size) => call('/v2/cursus_users', 'GET', {
+  'page[number]': page,
+  'page[size]': size,
+});
+
+const getUsersCampus = (page, size) => call('/v2/campus_users', 'GET', {
+  'page[number]': page,
+  'page[size]': size,
+});
+
 module.exports = {
   getCampus,
   getCoalitions,
   getCursus,
   getProjects,
   getSubProjects,
+  getUsers,
+  getUser,
+  getUsersCursus,
+  getUsersCampus,
 };

@@ -1,5 +1,5 @@
-var mysql = require('../libraries/mysql').client();
-var createModels = require('../scripts/createModels');
+var mysql = require('../app/libraries/mysql').client();
+var createModels = require('../app/functions/createModels');
 
 module.exports = (grunt) => {
   grunt.task.registerTask('create-models', 'Create Mysql Models/Tables', function () {

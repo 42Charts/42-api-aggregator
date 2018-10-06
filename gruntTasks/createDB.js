@@ -1,5 +1,5 @@
-var mysql = require('../libraries/mysql').clientWithoutDB();
-var createDB = require('../scripts/createDB');
+var mysql = require('../app/libraries/mysql').clientWithoutDB();
+var createDB = require('../app/functions/createDB');
 
 module.exports = (grunt) => {
   grunt.task.registerTask('create-db', 'Create Mysql Database', function () {

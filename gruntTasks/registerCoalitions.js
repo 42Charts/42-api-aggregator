@@ -1,6 +1,6 @@
-var api = require('../libraries/api');
-var mysql = require('../libraries/mysql').client();
-var registerCoalitions = require('../scripts/registerCoalitions');
+var api = require('../app/libraries/api');
+var mysql = require('../app/libraries/mysql').client();
+var registerCoalitions = require('../app/functions/registerCoalitions');
 
 module.exports = (grunt) => {
   grunt.task.registerTask('register-coalitions', 'Fill coalitions table', function () {

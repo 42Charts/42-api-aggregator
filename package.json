@@ -27,6 +27,8 @@
     "grunt": "^1.0.3",
     "grunt-extend-config": "^0.9.7",
     "grunt-prompt": "^1.3.3",
+    "logfile-grunt": "^0.4.0",
+    "moment": "^2.22.2",
     "time-grunt": "^1.4.0"
   }
 }

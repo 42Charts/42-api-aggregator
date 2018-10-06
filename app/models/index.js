@@ -7,10 +7,14 @@ const locations = require('./locations');
 const clusters = require('./clusters');
 const hosts = require('./hosts');
 const cursus = require('./cursus');
+const usersCursus = require('./usersCursus');
+const projectsCursus = require('./projectsCursus');
+const usersCampus = require('./usersCampus');
 
 const models = [
   cursus,
   projects,
+  projectsCursus,
   campus,
   coalitions,
   clusters,
@@ -18,6 +22,8 @@ const models = [
   users,
   usersProjects,
   locations,
+  usersCursus,
+  usersCampus,
 ];
 
 module.exports = models;

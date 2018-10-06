@@ -20,6 +20,7 @@ module.exports = (grunt) => {
               { name: 'Register coalitions' },
               { name: 'Register cursus' },
               { name: 'Register Projects' },
+              { name: 'Register Users' },
               { name: 'Exit' },
             ]
           } ],
@@ -48,6 +49,9 @@ module.exports = (grunt) => {
                 break;
               case 'Register Projects':
                 grunt.task.run('register-projects');
+                break;
+              case 'Register Users':
+                grunt.task.run('register-users');
                 break;
               default:
                 break;
