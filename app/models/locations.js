@@ -4,6 +4,7 @@ const LOCATIONS = (
   "ID INT NOT NULL PRIMARY KEY," +
   "hostID INT," +
   "userID INT," +
+  "logtimeInSeconds INT," +
   "beginAt TIMESTAMP NOT NULL," +
   "endAt TIMESTAMP," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
