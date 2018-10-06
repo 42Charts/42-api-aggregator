@@ -29,3 +29,12 @@ const models = [
 ];
 
 module.exports = models;
+
+/*
+@TODO put some data on user to avoid re-calc (will be refresh every days)
+- logtime this week/day/year/from the start
+
+@TODO create state table to avoid re-calc (will be refresh every days)
+- average logtime this week/day/year/from the start
+- most used cluster/row/host
+*/
