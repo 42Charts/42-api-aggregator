@@ -1,4 +1,4 @@
-# 42-charts-database
+# 42-charts-database-manager
 
 ### INSTALLATION
 
