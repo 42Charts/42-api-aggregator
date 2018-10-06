@@ -1,7 +1,7 @@
 const CLUSTERS = (
   "CLUSTERS " +
   "(" +
-  "ID INT NOT NULL PRIMARY KEY," +
+  "ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
   "campusID INT," +
   "name VARCHAR(255)," +
   "surnname VARCHAR(255)," +
