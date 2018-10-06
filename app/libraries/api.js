@@ -112,6 +112,12 @@ const getUsersCampus = (page, size) => call('/v2/campus_users', 'GET', {
   'page[size]': size,
 });
 
+const getLocations = (page, size) => call('/v2/locations', 'GET', {
+  sort: 'begin_at', // get older first
+  'page[number]': page,
+  'page[size]': size,
+});
+
 module.exports = {
   getCampus,
   getCoalitions,
@@ -122,4 +128,5 @@ module.exports = {
   getUser,
   getUsersCursus,
   getUsersCampus,
+  getLocations,
 };
