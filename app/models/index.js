@@ -10,6 +10,7 @@ const cursus = require('./cursus');
 const usersCursus = require('./usersCursus');
 const projectsCursus = require('./projectsCursus');
 const usersCampus = require('./usersCampus');
+const rows = require('./rows');
 
 const models = [
   cursus, // done
@@ -18,12 +19,13 @@ const models = [
   campus, // done
   coalitions, // done
   clusters,
+  rows,
   hosts,
   users, // done
   usersProjects, // done
   usersCursus, // done
   usersCampus, // done
-  locations, // @TODO after users (in it do hosts/clusters)
+  locations, // @TODO after users (in it do hosts/rows/clusters)
 ];
 
 module.exports = models;
