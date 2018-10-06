@@ -12,10 +12,12 @@ const USERS = (
   "poolMonth VARCHAR(15)," +
   "poolYear VARCHAR(6)," +
   "hostPrefered INT," +
+  "rowPrefered INT," +
   "clusterPrefered INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "FOREIGN KEY (hostPrefered) REFERENCES hosts(ID)," +
+  "FOREIGN KEY (rowPrefered) REFERENCES rows(ID)," +
   "FOREIGN KEY (clusterPrefered) REFERENCES clusters(ID)" +
   ") ENGINE = InnoDB;"
 );
