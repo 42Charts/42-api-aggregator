@@ -2,13 +2,13 @@ const fetch = require('node-fetch');
 const Bottleneck = require('bottleneck');
 
 let APItoken = null;
-const TOKENLIFETIMEINSECONDS = 7200;
+const TOKEN_LIFETIME_IN_SECONDS = 7200;
 
 const limiter = new Bottleneck({
   maxConcurrent: 2,
   minTime: 1000 / (process.env.FT_API_RATE_LIMIT_PER_SECOND || 1.8), // we don't set to 2s since sometimes api doesn't keep up
   reservoir: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150, // we don't set to 1200 for the same reason
-  reservoirRefreshAmount: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150, // we don't set to 1200 for the same reason
+  reservoirRefreshAmount: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150,
   reservoirRefreshInterval: 60 * 1000 * 60, // one hour
 });
 
@@ -17,13 +17,13 @@ const call = (endpoint, method, params, force) => {
   let tokenExpirationDate = new Date();
 
   if (APItoken) {
-    tokenExpirationDate.setTime((APItoken.created_at + TOKENLIFETIMEINSECONDS) * 1000);
+    tokenExpirationDate.setTime((APItoken.created_at + TOKEN_LIFETIME_IN_SECONDS) * 1000);
   }
   if (!force && (!APItoken || currentDate.getTime() > tokenExpirationDate.getTime())) {
     return getToken()
       .then((token) => {
         APItoken = token;
-        tokenExpirationDate.setTime((APItoken.created_at + TOKENLIFETIMEINSECONDS) * 1000);
+        tokenExpirationDate.setTime((APItoken.created_at + TOKEN_LIFETIME_IN_SECONDS) * 1000);
         console.log('Token expire =>', tokenExpirationDate);
         return call(endpoint, method, params);
       });
