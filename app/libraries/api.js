@@ -113,7 +113,13 @@ const getUsersCampus = (page, size) => call('/v2/campus_users', 'GET', {
 });
 
 const getLocations = (page, size) => call('/v2/locations', 'GET', {
+  'filter[end]': true, // get only finished locations
   sort: 'begin_at', // get older first
+  'page[number]': page,
+  'page[size]': size,
+});
+
+const getAchievements = (page, size) => call('/v2/achievements', 'GET', {
   'page[number]': page,
   'page[size]': size,
 });
@@ -129,4 +135,5 @@ module.exports = {
   getUsersCursus,
   getUsersCampus,
   getLocations,
+  getAchievements,
 };

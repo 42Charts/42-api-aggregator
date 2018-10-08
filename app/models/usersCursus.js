@@ -5,7 +5,7 @@ const USERSCURSUS = (
   "grade VARCHAR(50)," +
   "userID INT," +
   "cursusID INT," +
-  "level INT," +
+  "level DOUBLE," +
   "beginAt TIMESTAMP," +
   "endAt TIMESTAMP," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +

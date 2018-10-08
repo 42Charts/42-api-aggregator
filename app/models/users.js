@@ -14,10 +14,11 @@ const USERS = (
   "hostPrefered INT," +
   "rowPrefered INT," +
   "clusterPrefered INT," +
+  "active TINYINT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "FOREIGN KEY (hostPrefered) REFERENCES hosts(ID)," +
-  "FOREIGN KEY (rowPrefered) REFERENCES rows(ID)," +
+  "FOREIGN KEY (rowPrefered) REFERENCES `rows`(ID)," +
   "FOREIGN KEY (clusterPrefered) REFERENCES clusters(ID)" +
   ") ENGINE = InnoDB;"
 );

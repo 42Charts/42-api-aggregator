@@ -13,14 +13,17 @@ module.exports = (grunt) => {
             default: 'Init database (create db & models)',
             choices: [
               { name: 'Init database (create db & models)' },
-              { name: 'Register simple Models (campus, coalitions, cursus, projects)' },
+              { name: 'Register simple Models (campus, coalitions, cursus, projects, achievements)' },
+              { name: 'Register complex Models (Users, locations)' },
               { name: 'Create DB' },
               { name: 'Create Models' },
               { name: 'Register campus' },
               { name: 'Register coalitions' },
               { name: 'Register cursus' },
               { name: 'Register Projects' },
+              { name: 'Register Achievements' },
               { name: 'Register Users' },
+              { name: 'Register Locations' },
               { name: 'Exit' },
             ]
           } ],
@@ -35,8 +38,11 @@ module.exports = (grunt) => {
               case 'Create Models':
                 grunt.task.run('create-models');
                 break;
-              case 'Register simple Models (campus, coalitions, cursus, projects)':
+              case 'Register simple Models (campus, coalitions, cursus, projects, achievements)':
                 grunt.task.run('register-simple-models');
+                break;
+              case 'Register complex Models (Users, locations)':
+                grunt.task.run('register-complex-models');
                 break;
               case 'Register campus':
                 grunt.task.run('register-campus');
@@ -50,8 +56,14 @@ module.exports = (grunt) => {
               case 'Register Projects':
                 grunt.task.run('register-projects');
                 break;
+              case 'Register Achievements':
+                grunt.task.run('register-achievements');
+                break;
               case 'Register Users':
                 grunt.task.run('register-users');
+                break;
+              case 'Register Locations':
+                grunt.task.run('register-locations');
                 break;
               default:
                 break;
@@ -69,6 +81,12 @@ module.exports = (grunt) => {
     'register-coalitions',
     'register-cursus',
     'register-projects',
+    'register-achievements',
+  ]);
+
+  grunt.registerTask('register-complex-models', 'Register complex Models (Users, locations)', [
+    'register-users',
+    'register-locations',
   ]);
 
   grunt.registerTask('init-database', 'Create database with models', [
