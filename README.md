@@ -2,13 +2,18 @@
 
 ### INSTALLATION
 
-#### STEP 1 (node_modules)
-$> `npm i`
+#### STEP 0 (node & grunt)
+Make sure [nodejs](https://nodejs.org/en/) is installed on your computer then
+
+$> `npm install -g grunt-cli`
+
+#### STEP 1 (project & node_modules)
+$> `git clone https://github.com/yfuks/42-charts-database-manager.git . && cd 42-charts-database-manager && npm i`
 
 #### STEP 2 (ENVIRONMENT VARIABLES)
 In the project root $> `touch .env`
 
-then in your file add the folowing keys
+then in your file add the folowing keys (change what you need)
 ```gradle
 DB_HOST=localhost
 DB_USER=root
