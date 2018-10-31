@@ -1,5 +1,22 @@
 var moment = require('moment');
 
+const registerUserAchievements = (usersAchievements, db, userId, cb) => {
+  if (!usersAchievements || !usersAchievements.length) {
+    return cb();
+  }
+  let query = 'INSERT IGNORE INTO USERSACHIEVEMENTS (userID, achievementID) VALUES ?';
+  let values = [];
+  usersAchievements.forEach((usersAchievement) => {
+    values.push([
+      userId,
+      usersAchievement.id,
+    ]);
+  });
+  db.query(query, [values], (err, result) => {
+    cb(err, result);
+  });
+};
+
 const registerUserCursus = (cursusUsers, db, cb) => {
   if (!cursusUsers || !cursusUsers.length) {
     return cb();
@@ -105,7 +122,12 @@ const registerUser = (user, db, cb) => {
           cb(err, result);
         }
         registerUserCampus(user.campus_users, db, (err, result) => {
-          cb(err, result);
+          if (err) {
+            cb(err, result);
+          }
+          registerUserAchievements(user.achievements, db, user.id, (err, result) => {
+            cb(err, result);
+          });
         });
       });
     });
