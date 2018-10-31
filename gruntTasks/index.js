@@ -15,6 +15,8 @@ module.exports = (grunt) => {
               { name: 'Init database (create db & models)' },
               { name: 'Register simple Models (campus, coalitions, cursus, projects, achievements)' },
               { name: 'Register complex Models (Users, locations)' },
+              { name: 'Register users and start to specific page' },
+              { name: 'Register specific User' },
               { name: 'Create DB' },
               { name: 'Create Models' },
               { name: 'Register campus' },
@@ -43,6 +45,12 @@ module.exports = (grunt) => {
                 break;
               case 'Register complex Models (Users, locations)':
                 grunt.task.run('register-complex-models');
+                break;
+              case 'Register users and start to specific page':
+                grunt.task.run('get-specific-users-from-page');
+                break;
+              case 'Register specific User':
+                grunt.task.run('get-specific-user');
                 break;
               case 'Register campus':
                 grunt.task.run('register-campus');
@@ -82,6 +90,16 @@ module.exports = (grunt) => {
     'register-cursus',
     'register-projects',
     'register-achievements',
+  ]);
+
+  grunt.registerTask('get-specific-user', 'Get specific user', [
+    'prompt:userSpecific',
+    'register-specific-user',
+  ]);
+
+  grunt.registerTask('get-specific-users-from-page', 'Get specific users from page', [
+    'prompt:usersPages',
+    'register-users-specific-pages',
   ]);
 
   grunt.registerTask('register-complex-models', 'Register complex Models (Users, locations)', [
