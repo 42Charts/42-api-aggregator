@@ -4,18 +4,18 @@
 
 ## Getting started
 
-## 0 (node & grunt)
+### (node & grunt)
 
 - Install [nodejs](https://nodejs.org/) and make sure `npm` is in your **PATH**
 - Install grunt $> `npm install -g grunt-cli`
 
-### 1 (project & node_modules)
+### (project & node_modules)
 
 $> `git clone https://github.com/yfuks/42-API-AGGREGATOR.git && cd 42-API-AGGREGATOR && npm i`
 
 Create a new app on [42 Intranet](https://profile.intra.42.fr/oauth/applications)
 
-### 2 (Environments variables)
+### (Environments variables)
 In the project root $> `touch .env`
 
 then in your file add the following keys
@@ -31,7 +31,7 @@ FT_API_RATE_LIMIT_PER_SECOND=1.9
 FT_API_RATE_LIMIT_PER_HOUR=1150
 ```
 
-### 3 (Start)
+### (Start)
 
 $> `npm run scripts` or `grunt`
 
