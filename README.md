@@ -1,4 +1,4 @@
-# 42-charts-database-manager
+# 42-API-AGGREGATOR
 
 ### INSTALLATION
 
