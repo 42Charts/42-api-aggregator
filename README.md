@@ -1,5 +1,7 @@
 # 42-API-AGGREGATOR
 
+42 API AGGREGATOR scrape 42 api into a mysql DB with only *usefull* informations using [nodejs](https://nodejs.org/en/docs/) & [gruntjs](https://gruntjs.com/)
+
 ### INSTALLATION
 
 #### STEP 1 (node_modules)
