@@ -2,6 +2,8 @@
 
 📡 42 API AGGREGATOR scrape 42 api school into a mysql DB with only *usefull* informations using [nodejs](https://nodejs.org/en/docs/) & [gruntjs](https://gruntjs.com/)
 
+See [tables](https://github.com/yfuks/42-API-AGGREGATOR/wiki#tables)
+
 ## Getting started
 
 ### (node & grunt)
