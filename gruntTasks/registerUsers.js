@@ -24,17 +24,24 @@ module.exports = (grunt) => {
               async.each(users, (user, cb) => {
                 api.getUser(user.id)
                   .then((userInfos) => {
-                    registerUser(userInfos, mysql, (err) => cb(err));
+                    registerUser(userInfos, mysql, (err) => {
+                      if (err && err.message) {
+                        grunt.log.writeln(`WARN >> ${user.id}`['yellow'], err.message);
+                      } else if (err) {
+                        grunt.log.error(err);
+                      }
+                      cb();
+                    });
                   })
                   .catch(err => {
                     if (err.message) {
-                      grunt.log.writeln('WARN >>'['yellow'], err.message);
+                      grunt.log.writeln(`WARN >> ${user.id}`['yellow'], err.message);
                     } else {
                       grunt.log.error(err);
                     }
                     cb();
                   });
-              }, (err) => callback(err));
+              }, () => callback());
             })
             .catch(err => {
               if (err.message) {

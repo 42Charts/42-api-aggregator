@@ -111,19 +111,19 @@ const registerUser = (user, db, cb) => {
   ]);
   db.query(query, [values], (err, result) => {
     if (err) {
-      cb(err, result);
+      return cb(err, result);
     }
     registerUserCursus(user.cursus_users, db, (err, result) => {
       if (err) {
-        cb(err, result);
+        return cb(err, result);
       }
       registerUserProjects(user.projects_users, db, user.id, (err, result) => {
         if (err) {
-          cb(err, result);
+          return cb(err, result);
         }
         registerUserCampus(user.campus_users, db, (err, result) => {
           if (err) {
-            cb(err, result);
+            return cb(err, result);
           }
           registerUserAchievements(user.achievements, db, user.id, (err, result) => {
             cb(err, result);
