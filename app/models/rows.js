@@ -7,7 +7,7 @@ const ROWS = (
   "number INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (clusterID) REFERENCES clusters(ID)" +
+  "FOREIGN KEY (clusterID) REFERENCES CLUSTERS(ID)" +
   ") ENGINE = InnoDB;"
 );
 

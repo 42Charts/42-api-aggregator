@@ -10,7 +10,7 @@ const ACHIEVEMENTS = (
   "parentID INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (parentID) REFERENCES achievements(ID)" +
+  "FOREIGN KEY (parentID) REFERENCES ACHIEVEMENTS(ID)" +
   ") ENGINE = InnoDB;"
 );
 

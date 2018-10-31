@@ -17,9 +17,9 @@ const USERS = (
   "active TINYINT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (hostPrefered) REFERENCES hosts(ID)," +
-  "FOREIGN KEY (rowPrefered) REFERENCES `rows`(ID)," +
-  "FOREIGN KEY (clusterPrefered) REFERENCES clusters(ID)" +
+  "FOREIGN KEY (hostPrefered) REFERENCES HOSTS(ID)," +
+  "FOREIGN KEY (rowPrefered) REFERENCES `ROWS`(ID)," +
+  "FOREIGN KEY (clusterPrefered) REFERENCES CLUSTERS(ID)" +
   ") ENGINE = InnoDB;"
 );
 

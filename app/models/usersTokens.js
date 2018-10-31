@@ -7,7 +7,7 @@ const USERSTOKENS = (
   "scope VARCHAR(15)," +
   "userID INT," +
   "created TIMESTAMP NOT NULL," +
-  "FOREIGN KEY (userID) REFERENCES users(ID)" +
+  "FOREIGN KEY (userID) REFERENCES USERS(ID)" +
   ") ENGINE = InnoDB;"
 );
 

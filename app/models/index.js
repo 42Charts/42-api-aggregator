@@ -13,6 +13,7 @@ const usersCampus = require('./usersCampus');
 const rows = require('./rows');
 const usersTokens = require('./usersTokens');
 const achievements = require('./achievements');
+const usersAchievements = require('./usersAchievements');
 
 const models = [
   achievements,
@@ -29,6 +30,7 @@ const models = [
   usersCursus, // done
   usersCampus, // done
   usersTokens, // would be done in api
+  usersAchievements,
   locations, // done
 ];
 

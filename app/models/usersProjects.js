@@ -11,7 +11,7 @@ const USERSPROJECTS = (
   "retries INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (projectID) REFERENCES projects(ID)" +
+  "FOREIGN KEY (projectID) REFERENCES PROJECTS(ID)" +
   ") ENGINE = InnoDB;"
 );
 
