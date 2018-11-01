@@ -113,20 +113,25 @@ const registerUser = (user, db, cb) => {
     if (err) {
       return cb(err, result);
     }
-    registerUserCursus(user.cursus_users, db, (err, result) => {
+    db.query('SET FOREIGN_KEY_CHECKS = 0', (err, result) => {
       if (err) {
         return cb(err, result);
       }
-      registerUserProjects(user.projects_users, db, user.id, (err, result) => {
+      registerUserCursus(user.cursus_users, db, (err, result) => {
         if (err) {
           return cb(err, result);
         }
-        registerUserCampus(user.campus_users, db, (err, result) => {
+        registerUserProjects(user.projects_users, db, user.id, (err, result) => {
           if (err) {
             return cb(err, result);
           }
-          registerUserAchievements(user.achievements, db, user.id, (err, result) => {
-            cb(err, result);
+          registerUserCampus(user.campus_users, db, (err, result) => {
+            if (err) {
+              return cb(err, result);
+            }
+            registerUserAchievements(user.achievements, db, user.id, (err, result) => {
+              cb(err, result);
+            });
           });
         });
       });
