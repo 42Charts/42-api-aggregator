@@ -4,7 +4,28 @@ var mysql = require('../app/libraries/mysql').client();
 var registerUser = require('../app/functions/registerUser');
 
 module.exports = (grunt) => {
-  grunt.task.registerTask('register-users', 'Fill users table', function () {
+  grunt.loadNpmTasks('grunt-extend-config');
+  grunt.loadNpmTasks('grunt-prompt');
+
+  grunt.extendConfig({
+    prompt: {
+      usersPages: {
+        options: {
+          questions: [ {
+            config: 'pageToStart',
+            type: 'input',
+            message: 'Page to Start',
+          } ],
+        }
+      },
+    },
+  });
+
+  grunt.task.registerTask('register-users-specific-pages', 'Fill users table', function () {
+    if (!grunt.config('pageToStart')) {
+      return grunt.fail.fatal('Page to Start is mandatory');
+    }
+
     const done = this.async();
     mysql.connect((error) => {
       if (error) {
@@ -12,7 +33,7 @@ module.exports = (grunt) => {
         return;
       }
       const pageSize = 50;
-      let page = 1; // intra start page 1 (omegalol)
+      let page = parseInt(grunt.config('pageToStart'), 10);
       let resLength = pageSize;
       async.whilst(
         () => resLength >= pageSize,

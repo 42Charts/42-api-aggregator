@@ -1,5 +1,22 @@
 var moment = require('moment');
 
+const registerUserAchievements = (usersAchievements, db, userId, cb) => {
+  if (!usersAchievements || !usersAchievements.length) {
+    return cb();
+  }
+  let query = 'INSERT IGNORE INTO USERSACHIEVEMENTS (userID, achievementID) VALUES ?';
+  let values = [];
+  usersAchievements.forEach((usersAchievement) => {
+    values.push([
+      userId,
+      usersAchievement.id,
+    ]);
+  });
+  db.query(query, [values], (err, result) => {
+    cb(err, result);
+  });
+};
+
 const registerUserCursus = (cursusUsers, db, cb) => {
   if (!cursusUsers || !cursusUsers.length) {
     return cb();
@@ -94,18 +111,28 @@ const registerUser = (user, db, cb) => {
   ]);
   db.query(query, [values], (err, result) => {
     if (err) {
-      cb(err, result);
+      return cb(err, result);
     }
-    registerUserCursus(user.cursus_users, db, (err, result) => {
+    db.query('SET FOREIGN_KEY_CHECKS = 0', (err, result) => {
       if (err) {
-        cb(err, result);
+        return cb(err, result);
       }
-      registerUserProjects(user.projects_users, db, user.id, (err, result) => {
+      registerUserCursus(user.cursus_users, db, (err, result) => {
         if (err) {
-          cb(err, result);
+          return cb(err, result);
         }
-        registerUserCampus(user.campus_users, db, (err, result) => {
-          cb(err, result);
+        registerUserProjects(user.projects_users, db, user.id, (err, result) => {
+          if (err) {
+            return cb(err, result);
+          }
+          registerUserCampus(user.campus_users, db, (err, result) => {
+            if (err) {
+              return cb(err, result);
+            }
+            registerUserAchievements(user.achievements, db, user.id, (err, result) => {
+              cb(err, result);
+            });
+          });
         });
       });
     });

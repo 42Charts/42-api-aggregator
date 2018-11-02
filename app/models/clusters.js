@@ -8,7 +8,7 @@ const CLUSTERS = (
   "number INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (campusID) REFERENCES campus(ID)" +
+  "FOREIGN KEY (campusID) REFERENCES CAMPUS(ID)" +
   ") ENGINE = InnoDB;"
 );
 

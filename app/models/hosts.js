@@ -7,7 +7,7 @@ const HOSTS = (
   "number INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "FOREIGN KEY (rowID) REFERENCES `rows`(ID)" +
+  "FOREIGN KEY (rowID) REFERENCES `ROWS`(ID)" +
   ") ENGINE = InnoDB;"
 );
 
