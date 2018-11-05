@@ -90,6 +90,9 @@ const registerLocations = (locations, db, cb) => {
           const beginAt = new Date(location.begin_at);
           const endAt = new Date(location.end_at);
           const logtimeInSeconds = (endAt.getTime() - beginAt.getTime()) / 1000;
+          if (!location.user) {
+            return callback();
+          }
           valuesToAdd.push([
             location.id,
             hostID,
