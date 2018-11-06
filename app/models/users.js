@@ -11,6 +11,8 @@ const USERS = (
   "staff TINYINT," +
   "poolMonth VARCHAR(15)," +
   "poolYear VARCHAR(6)," +
+  "promoRank INT," +
+  "allRank INT," +
   "hostPrefered INT," +
   "rowPrefered INT," +
   "clusterPrefered INT," +
