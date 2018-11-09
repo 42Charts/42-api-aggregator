@@ -15,6 +15,7 @@ const usersTokens = require('./usersTokens');
 const achievements = require('./achievements');
 const usersAchievements = require('./usersAchievements');
 const levels = require('./levels');
+const usersCoalitions = require('./usersCoalitions');
 
 const models = [
   achievements,
@@ -34,6 +35,7 @@ const models = [
   usersAchievements,
   locations, // done
   levels,
+  usersCoalitions,
 ];
 
 module.exports = models;

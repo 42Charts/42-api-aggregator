@@ -124,6 +124,11 @@ const getAchievements = (page, size) => call('/v2/achievements', 'GET', {
   'page[size]': size,
 });
 
+const usersCoalitions = (page, size) => call('/v2/coalitions_users', 'GET', {
+  'page[number]': page,
+  'page[size]': size,
+});
+
 module.exports = {
   getCampus,
   getCoalitions,
@@ -136,4 +141,5 @@ module.exports = {
   getUsersCampus,
   getLocations,
   getAchievements,
+  usersCoalitions,
 };

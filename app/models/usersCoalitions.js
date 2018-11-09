@@ -1,0 +1,16 @@
+const USERSCOALITIONS = (
+  "USERSCOALITIONS " +
+  "(" +
+  "ID INT NOT NULL PRIMARY KEY UNIQUE," +
+  "userID INT," +
+  "coalitionID INT," +
+  "score INT," +
+  "rank INT," +
+  "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+  "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+  "FOREIGN KEY (userID) REFERENCES USERS(ID)," +
+  "FOREIGN KEY (coalitionID) REFERENCES COALITIONS(ID)" +
+  ") ENGINE = InnoDB;"
+);
+
+module.exports = USERSCOALITIONS;
