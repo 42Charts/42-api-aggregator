@@ -1,12 +1,12 @@
 const MESSAGES = (
   "MESSAGES " +
   "(" +
-  "ID INT NOT NULL PRIMARY KEY," +
+  "ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
   "title VARCHAR(255)," +
-  "description TEXT," +
+  "message TEXT," +
   "fromUserID INT," +
   "toUserID INT," +
-  "readed TINYINT," +
+  "readed TINYINT DEFAULT 0," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "FOREIGN KEY (toUserID) REFERENCES USERS(ID)," +
