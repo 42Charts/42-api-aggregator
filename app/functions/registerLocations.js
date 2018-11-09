@@ -75,36 +75,38 @@ const registerLocations = (locations, db, cb) => {
     if (!hostParsed) {
       return callback();
     }
-    registerCluster(hostParsed.cluster, location.campus_id, db, (err, clusterID) => {
-      if (err) {
-        return callback(err);
-      }
-      registerRow(hostParsed.row, clusterID, db, (err, rowID) => {
+    db.query('SET FOREIGN_KEY_CHECKS = 0', (err, result) => {
+      registerCluster(hostParsed.cluster, location.campus_id, db, (err, clusterID) => {
         if (err) {
           return callback(err);
         }
-        registerHost(hostParsed.host, rowID, db, (err, hostID) => {
+        registerRow(hostParsed.row, clusterID, db, (err, rowID) => {
           if (err) {
             return callback(err);
           }
-          const beginAt = new Date(location.begin_at);
-          const endAt = new Date(location.end_at);
-          const logtimeInSeconds = (endAt.getTime() - beginAt.getTime()) / 1000;
-          if (!location.user) {
-            return callback();
-          }
-          valuesToAdd.push([
-            location.id,
-            hostID,
-            location.user.id,
-            logtimeInSeconds,
-            moment(beginAt).format('YYYY-MM-DD HH:mm:ss'),
-            moment(endAt).format('YYYY-MM-DD HH:mm:ss'),
-          ]);
-          callback();
+          registerHost(hostParsed.host, rowID, db, (err, hostID) => {
+            if (err) {
+              return callback(err);
+            }
+            const beginAt = new Date(location.begin_at);
+            const endAt = new Date(location.end_at);
+            const logtimeInSeconds = (endAt.getTime() - beginAt.getTime()) / 1000;
+            if (!location.user) {
+              return callback();
+            }
+            valuesToAdd.push([
+              location.id,
+              hostID,
+              location.user.id,
+              logtimeInSeconds,
+              moment(beginAt).format('YYYY-MM-DD HH:mm:ss'),
+              moment(endAt).format('YYYY-MM-DD HH:mm:ss'),
+            ]);
+            callback();
+          });
         });
       });
-    })
+    });
   }, (err) => {
     if (err) {
       return cb(err);
