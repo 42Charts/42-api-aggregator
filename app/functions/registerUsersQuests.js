@@ -19,6 +19,7 @@ const registerUsersQuests = (usersQuests, db, cb) => {
       values = [];
       let validated = null;
       let end = null;
+      let userId = null;
       usersQuests.forEach((userQuests) => {
         if (userQuests.validated_at) {
           validated = moment(userQuests.validated_at).format('YYYY-MM-DD HH:mm:ss');
@@ -26,10 +27,13 @@ const registerUsersQuests = (usersQuests, db, cb) => {
         if (userQuests.end_at) {
           end = moment(userQuests.end_at).format('YYYY-MM-DD HH:mm:ss');
         }
+        if (userQuests.user && userQuests.user.id) {
+          userId = userQuests.user.id;
+        }
         values.push([
           userQuests.id,
           userQuests.quest_id,
-          userQuests.user.id,
+          userId,
           userQuests.prct,
           userQuests.advancement,
           validated,
