@@ -18,6 +18,8 @@ const levels = require('./levels');
 const usersCoalitions = require('./usersCoalitions');
 const apps = require('./apps');
 const messages = require('./messages');
+const quests = require('./quests');
+const usersQuests = require('./usersQuests');
 
 const models = [
   achievements,
@@ -40,6 +42,8 @@ const models = [
   usersCoalitions,
   apps,
   messages,
+  quests,
+  usersQuests,
 ];
 
 module.exports = models;
