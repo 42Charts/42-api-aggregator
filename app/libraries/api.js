@@ -129,6 +129,11 @@ const usersCoalitions = (page, size) => call('/v2/coalitions_users', 'GET', {
   'page[size]': size,
 });
 
+const usersQuests = (page, size) => call('/v2/quests_users', 'GET', {
+  'page[number]': page,
+  'page[size]': size,
+});
+
 const apps = (page, size) => call('/v2/apps', 'GET', {
   'page[number]': page,
   'page[size]': size,
@@ -147,5 +152,6 @@ module.exports = {
   getLocations,
   getAchievements,
   usersCoalitions,
+  usersQuests,
   apps,
 };
