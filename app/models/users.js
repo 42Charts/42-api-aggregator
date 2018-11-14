@@ -17,6 +17,7 @@ const USERS = (
   "rowPrefered INT," +
   "clusterPrefered INT," +
   "active TINYINT," +
+  "totalLogTime INT," +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
   "FOREIGN KEY (hostPrefered) REFERENCES HOSTS(ID)," +

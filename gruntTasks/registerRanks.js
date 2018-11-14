@@ -1,9 +1,9 @@
 var async = require('async');
+var moment = require('moment');
 var mysql = require('../app/libraries/mysql').client();
 var registerRanks = require('../app/functions/registerRanks');
 
 const PROMOS = [
-  '2012',
   '2013',
   '2014',
   '2015',
@@ -42,7 +42,9 @@ module.exports = (grunt) => {
             return;
           }
           async.eachLimit(PROMOS, 1, (promo, callback) => {
-            mysql.query(`SELECT l.userID FROM USERSCURSUS l INNER JOIN USERS u ON u.ID=l.userID WHERE l.cursusID=1 AND u.poolYear='${promo}' ORDER BY l.level DESC`, (err, result) => {
+            const yearBottom = moment().year(promo).startOf('year').format('YYYY-MM-DDTHH:mm:ss.SSS');
+            const yearTop = moment().year(promo + 1).startOf('year').format('YYYY-MM-DDTHH:mm:ss.SSS');
+            mysql.query(`SELECT l.userID FROM USERSCURSUS l INNER JOIN USERS u ON u.ID=l.userID WHERE l.cursusID=1 AND l.beginAt>='${yearBottom}' AND l.beginAt<'${yearTop}' ORDER BY l.level DESC`, (err, result) => {
               if (err) {
                 callback(err);
                 return;
