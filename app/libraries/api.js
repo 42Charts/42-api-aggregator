@@ -134,6 +134,11 @@ const usersQuests = (page, size) => call('/v2/quests_users', 'GET', {
   'page[size]': size,
 });
 
+const usersCursus = (page, size) => call('/v2/cursus_users', 'GET', {
+  'page[number]': page,
+  'page[size]': size,
+});
+
 const apps = (page, size) => call('/v2/apps', 'GET', {
   'page[number]': page,
   'page[size]': size,
@@ -153,5 +158,6 @@ module.exports = {
   getAchievements,
   usersCoalitions,
   usersQuests,
+  usersCursus,
   apps,
 };
