@@ -22,9 +22,9 @@ module.exports = (grunt) => {
   });*/
 
   grunt.task.registerTask('register-users-specific-pages', 'Fill users table', function () {
-    if (!grunt.config('pageToStart')) {
+    /*if (!grunt.config('pageToStart')) {
       return grunt.fail.fatal('Page to Start is mandatory');
-    }
+    }*/
 
     const done = this.async();
     mysql.connect((error) => {
