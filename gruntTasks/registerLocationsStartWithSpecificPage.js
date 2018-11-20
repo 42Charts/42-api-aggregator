@@ -38,7 +38,7 @@ module.exports = (grunt) => {
       async.whilst(
         () => resLength >= pageSize,
         (callback) => {
-          api.getLocations(1497806, 4497806, page, pageSize)
+          api.getLocations(1497806, 14497806, page, pageSize)
             .then((locations) => {
               resLength = locations.length;
               page += 1;
@@ -48,7 +48,7 @@ module.exports = (grunt) => {
               if (err.message) {
                 grunt.log.writeln('WARN >>'['yellow'], err.message);
               } else {
-                grunt.log.writeln('WARN >>'['yellow'], err.message);
+                grunt.log.writeln('WARN >>'['yellow'], err);
               }
               callback();
             });
