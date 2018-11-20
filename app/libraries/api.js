@@ -112,11 +112,12 @@ const getUsersCampus = (page, size) => call('/v2/campus_users', 'GET', {
   'page[size]': size,
 });
 
-const getLocations = (page, size) => call('/v2/locations', 'GET', {
+const getLocations = (minId, maxId, page, size) => call('/v2/locations', 'GET', {
   'filter[end]': true, // get only finished locations
-  sort: 'begin_at', // get older first
+  sort: 'id', // get older first
   'page[number]': page,
   'page[size]': size,
+  'range[id]': `${minId},${maxId}`
 });
 
 const getAchievements = (page, size) => call('/v2/achievements', 'GET', {

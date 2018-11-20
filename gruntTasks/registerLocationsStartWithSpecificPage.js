@@ -38,7 +38,7 @@ module.exports = (grunt) => {
       async.whilst(
         () => resLength >= pageSize,
         (callback) => {
-          api.getLocations(page, pageSize)
+          api.getLocations(1497806, 4497806, page, pageSize)
             .then((locations) => {
               resLength = locations.length;
               page += 1;

@@ -20,6 +20,7 @@ const apps = require('./apps');
 const messages = require('./messages');
 const quests = require('./quests');
 const usersQuests = require('./usersQuests');
+const zones = require('./zones');
 
 const models = [
   achievements,
@@ -29,6 +30,7 @@ const models = [
   campus, // done
   coalitions, // done
   clusters, // done
+  zones,
   rows, // done
   hosts, // done
   users, // done
