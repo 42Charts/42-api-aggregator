@@ -46,9 +46,9 @@ module.exports = (grunt) => {
             })
             .catch(err => {
               if (err.message) {
-                grunt.log.writeln('WARN >>'['yellow'], err.message);
+                console.log('WARN >>', err.message);
               } else {
-                grunt.log.writeln('WARN >>'['yellow'], err);
+                console.log('WARN >>', err);
               }
               callback();
             });
