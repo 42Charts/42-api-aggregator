@@ -7,7 +7,7 @@ module.exports = (grunt) => {
   grunt.loadNpmTasks('grunt-extend-config');
   grunt.loadNpmTasks('grunt-prompt');
 
-  grunt.extendConfig({
+  /*grunt.extendConfig({
     prompt: {
       locationsPages: {
         options: {
@@ -19,12 +19,12 @@ module.exports = (grunt) => {
         }
       },
     },
-  });
+  });*/
 
   grunt.task.registerTask('register-locations-specific-pages', 'Fill locations table', function () {
-    if (!grunt.config('pageToStart')) {
+    /*if (!grunt.config('pageToStart')) {
       return grunt.fail.fatal('Page to Start is mandatory');
-    }
+    }*/
 
     const done = this.async();
     mysql.connect((error) => {
@@ -33,7 +33,7 @@ module.exports = (grunt) => {
         return;
       }
       const pageSize = 50;
-      let page = parseInt(grunt.config('pageToStart'), 10);
+      let page = 1;
       let resLength = pageSize;
       async.whilst(
         () => resLength >= pageSize,
