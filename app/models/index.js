@@ -21,6 +21,7 @@ const messages = require('./messages');
 const quests = require('./quests');
 const usersQuests = require('./usersQuests');
 const zones = require('./zones');
+const friends = require('./friends');
 
 const models = [
   achievements,
@@ -46,6 +47,7 @@ const models = [
   messages,
   quests,
   usersQuests,
+  friends,
 ];
 
 module.exports = models;

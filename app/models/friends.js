@@ -1,0 +1,15 @@
+const FRIENDS = (
+  "FRIENDS " +
+  "(" +
+  "ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
+  "userID INT," +
+  "friendID INT," +
+  "surname VARCHAR(255)," +
+  "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+  "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+  "FOREIGN KEY (userID) REFERENCES USERS(ID)," +
+  "FOREIGN KEY (friendID) REFERENCES USERS(ID)" +
+  ") ENGINE = InnoDB;"
+);
+
+module.exports = FRIENDS;
