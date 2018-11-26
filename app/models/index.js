@@ -22,6 +22,7 @@ const quests = require('./quests');
 const usersQuests = require('./usersQuests');
 const zones = require('./zones');
 const friends = require('./friends');
+const likes = require('./likes');
 
 const models = [
   achievements,
@@ -48,6 +49,7 @@ const models = [
   quests,
   usersQuests,
   friends,
+  likes,
 ];
 
 module.exports = models;
