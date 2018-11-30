@@ -6,6 +6,8 @@ const POOLS = (
   "campusID INT," +
   "nbUsers INT," +
   "nbStudents INT," +
+  "averageLogTime INT, " +
+  "averageLogTimeStudents INT, " +
   "year VARCHAR(255)," +
   "month VARCHAR(255), " +
   "updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
