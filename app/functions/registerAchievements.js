@@ -1,9 +1,8 @@
-const async = require('async');
-
-const registerAchievements = (achievements, db, cb) => {
+const registerAchievements = (achievements, DBconnection) => {
+  const values = [];
   let query = 'INSERT IGNORE INTO ACHIEVEMENTS (id, name, description, tier, kind, imageUrl, parentID) VALUES ?';
-  async.eachLimit(achievements, 1, (achievement, callback) => {
-    let values = [];
+
+  achievements.forEach((achievement) => {
     let parentID;
     if (achievement.parent) {
       parentID = achievement.parent.id;
@@ -17,10 +16,8 @@ const registerAchievements = (achievements, db, cb) => {
       achievement.image,
       parentID,
     ]);
-    db.query(query, [values], (err, result) => {
-      callback(err, result);
-    });
-  }, (err) => cb(err));
+  });
+  return DBconnection.query(query, [values]);
 };
 
 module.exports = registerAchievements;

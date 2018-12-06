@@ -20,7 +20,7 @@
     "async": "^2.6.1",
     "bottleneck": "^2.11.2",
     "dotenv": "^6.1.0",
-    "mysql": "^2.16.0",
+    "mysql2": "^1.6.4",
     "node-fetch": "^2.2.0"
   },
   "devDependencies": {

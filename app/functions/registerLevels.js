@@ -1,4 +1,4 @@
-const registerLevels = (levels, db, cb) => {
+const registerLevels = (levels, DBconnection) => {
   let query = 'INSERT IGNORE INTO LEVELS (cursusID, userID, level) VALUES ?';
   let values = [];
   levels.forEach((level) => {
@@ -8,9 +8,7 @@ const registerLevels = (levels, db, cb) => {
       level.level,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
+  return DBconnection.query(query, [values]);
 };
 
 module.exports = registerLevels;

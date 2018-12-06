@@ -1,4 +1,4 @@
-const registerCampus = (campus, db, cb) => {
+const registerCampus = (campus, DBconnection) => {
   let query = 'INSERT IGNORE INTO CAMPUS (id, userCount, name, country, address, timeZone) VALUES ?';
   let values = [];
   campus.forEach((camp) => {
@@ -11,9 +11,7 @@ const registerCampus = (campus, db, cb) => {
       camp.time_zone,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
+  return DBconnection.query(query, [values]);
 };
 
 module.exports = registerCampus;

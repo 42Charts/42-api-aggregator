@@ -7,21 +7,12 @@ module.exports = (grunt) => {
     const done = this.async();
     api.getCoalitions()
       .then((coalitions) => {
-        mysql.connect((error) => {
-          if (error) {
-            mysql.end();
-            done(error);
-            return;
-          }
-          registerCoalitions(coalitions, mysql, (err) => {
-            mysql.end();
-            done(err);
-          });
-        });
+        mysql.then(connection => {
+          registerCoalitions(coalitions, connection)
+            .then(() => done())
+            .catch(err => done(err));
+        }).catch(err => done(err));
       })
-      .catch(err => {
-        mysql.end();
-        done(err);
-      });
+      .catch(err => done(err));
   });
 };

@@ -1,4 +1,4 @@
-const registerApps = (apps, db, cb) => {
+const registerApps = (apps, DBconnection) => {
   let query = 'INSERT IGNORE INTO APPS (id, name, description, imageUrl, website, public, ownerID, rateLimit) VALUES ?';
   let values = [];
   apps.forEach((app) => {
@@ -13,9 +13,7 @@ const registerApps = (apps, db, cb) => {
       app.rate_limit,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
+  return DBconnection.query(query, [values]);
 };
 
 module.exports = registerApps;

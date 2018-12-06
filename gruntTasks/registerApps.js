@@ -6,11 +6,7 @@ var registerApps = require('../app/functions/registerApps');
 module.exports = (grunt) => {
   grunt.task.registerTask('register-apps', 'Fill apps table', function () {
     const done = this.async();
-    mysql.connect((error) => {
-      if (error) {
-        done(error);
-        return;
-      }
+    mysql.then(connection => {
       const pageSize = 50;
       let page = 1; // intra start page 1 (omegalol)
       let resLength = pageSize;
@@ -21,7 +17,9 @@ module.exports = (grunt) => {
             .then((apps) => {
               resLength = apps.length;
               page += 1;
-              registerApps(apps, mysql, (err) => callback(err));
+              registerApps(apps, connection)
+                .then(() => callback())
+                .catch(err => callback(err));
             })
             .catch(err => {
               if (err.message) {
@@ -33,10 +31,11 @@ module.exports = (grunt) => {
             });
         },
         (err) => {
-          mysql.end();
+          connection.end();
           done(err);
         }
       );
-    });
+    })
+    .catch(err => done(err));
   });
 };

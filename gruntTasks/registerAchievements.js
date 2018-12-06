@@ -6,11 +6,7 @@ var registerAchievements = require('../app/functions/registerAchievements');
 module.exports = (grunt) => {
   grunt.task.registerTask('register-achievements', 'Fill Achievements table', function () {
     const done = this.async();
-    mysql.connect((error) => {
-      if (error) {
-        done(error);
-        return;
-      }
+    mysql.then(connection => {
       const pageSize = 50;
       let page = 1; // intra start page 1 (omegalol)
       let resLength = pageSize;
@@ -21,7 +17,9 @@ module.exports = (grunt) => {
             .then((achievements) => {
               resLength = achievements.length;
               page += 1;
-              registerAchievements(achievements, mysql, (err) => callback(err));
+              registerAchievements(achievements, connection)
+                .then(() => callback())
+                .catch(err => callback(err));
             })
             .catch(err => {
               if (err.message) {
@@ -33,10 +31,11 @@ module.exports = (grunt) => {
             });
         },
         (err) => {
-          mysql.end();
+          connection.end();
           done(err);
         }
       );
-    });
+    })
+    .catch(err => done(err));
   });
 };

@@ -7,19 +7,12 @@ module.exports = (grunt) => {
     const done = this.async();
     api.getCursus()
       .then((cursus) => {
-        mysql.connect((error) => {
-          if (error) {
-            done(error);
-            return;
-          }
-          registerCursus(cursus, mysql, (err) => {
-            done(err);
-          });
-        });
+        mysql.then(connection => {
+          registerCursus(cursus, connection)
+            .then(() => done())
+            .catch(err => done(err));
+        }).catch(err => done(err));
       })
-      .catch(err => {
-        mysql.end();
-        done(err);
-      });
+      .catch(err => done(err));
   });
 };
