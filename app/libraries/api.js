@@ -7,24 +7,28 @@ const TOKEN_LIFETIME_IN_SECONDS = 7200;
 const limiter = new Bottleneck({
   maxConcurrent: 2,
   minTime: 1000 / (process.env.FT_API_RATE_LIMIT_PER_SECOND || 1.8), // we don't set to 2s since sometimes api doesn't keep up
-  reservoir: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150, // we don't set to 1200 for the same reason
-  reservoirRefreshAmount: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1150,
+  reservoir: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1200,
+  reservoirRefreshAmount: process.env.FT_API_RATE_LIMIT_PER_HOUR || 1200,
   reservoirRefreshInterval: 60 * 1000 * 60, // one hour
 });
 
-const call = (endpoint, method, params, force) => {
+const isTokenExpired = () => {
   let currentDate = new Date();
   let tokenExpirationDate = new Date();
 
   if (APItoken) {
     tokenExpirationDate.setTime((APItoken.created_at + TOKEN_LIFETIME_IN_SECONDS) * 1000);
   }
-  if (!force && (!APItoken || currentDate.getTime() > tokenExpirationDate.getTime())) {
+  return (!APItoken || currentDate.getTime() > tokenExpirationDate.getTime());
+};
+
+const schedule = (prom) => limiter.schedule(() => prom());
+
+const call = (endpoint, method, params, force) => {
+  if (!force && isTokenExpired()) {
     return getToken()
       .then((token) => {
         APItoken = token;
-        tokenExpirationDate.setTime((APItoken.created_at + TOKEN_LIFETIME_IN_SECONDS) * 1000);
-        console.log('Token expire =>', tokenExpirationDate);
         return call(endpoint, method, params);
       });
   }
@@ -45,11 +49,11 @@ const call = (endpoint, method, params, force) => {
       fetchHeaders.Authorization = `Bearer ${APItoken.access_token}`;
     }
     console.info('New Api Call', url);
-    limiter.schedule(() => fetch(url, {
+    fetch(url, {
       method,
       headers: fetchHeaders,
       timeout: 25000, // 25 sec we are not to picky with 42Api
-    }))
+    })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -74,76 +78,76 @@ const getToken = () => call('/oauth/token', 'POST', {
   client_secret: process.env.FT_API_SECRET,
 }, true);
 
-const getCampus = () => call('/v2/campus', 'GET', {
+const getCampus = () => schedule(() => call('/v2/campus', 'GET', {
   'page[size]': 100,
-});
+}));
 
-const getCoalitions = () => call('/v2/coalitions', 'GET', {
+const getCoalitions = () => schedule(() => call('/v2/coalitions', 'GET', {
   'page[size]': 100,
-});
+}));
 
-const getCursus = () => call('/v2/cursus', 'GET', {
+const getCursus = () => schedule(() => call('/v2/cursus', 'GET', {
   'page[size]': 100,
-});
+}));
 
-const getProjects = (page, size) => call('/v2/projects', 'GET', {
+const getProjects = (page, size) => schedule(() => call('/v2/projects', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const getSubProjects = (projectId) => call(`/v2/projects/${projectId}/projects`, 'GET', {
+const getSubProjects = (projectId) => schedule(() => call(`/v2/projects/${projectId}/projects`, 'GET', {
   'page[size]': 30,
-});
+}));
 
-const getUsers = (page, size) => call('/v2/users', 'GET', {
+const getUsers = (page, size) => schedule(() => call('/v2/users', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const getUser = (userId) => call(`/v2/users/${userId}`, 'GET');
+const getUser = (userId) => schedule(() => call(`/v2/users/${userId}`, 'GET'));
 
-const getUsersCursus = (page, size) => call('/v2/cursus_users', 'GET', {
+const getUsersCursus = (page, size) => schedule(() => call('/v2/cursus_users', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const getUsersCampus = (page, size) => call('/v2/campus_users', 'GET', {
+const getUsersCampus = (page, size) => schedule(() => call('/v2/campus_users', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const getLocations = (minId, maxId, page, size) => call('/v2/locations', 'GET', {
+const getLocations = (minId, maxId, page, size) => schedule(() => call('/v2/locations', 'GET', {
   'filter[end]': true, // get only finished locations
   sort: 'id', // get older first
   'page[number]': page,
   'page[size]': size,
   'range[id]': `${minId},${maxId}`
-});
+}));
 
-const getAchievements = (page, size) => call('/v2/achievements', 'GET', {
+const getAchievements = (page, size) => schedule(() => call('/v2/achievements', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const usersCoalitions = (page, size) => call('/v2/coalitions_users', 'GET', {
+const usersCoalitions = (page, size) => schedule(() => call('/v2/coalitions_users', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const usersQuests = (page, size) => call('/v2/quests_users', 'GET', {
+const usersQuests = (page, size) => schedule(() => call('/v2/quests_users', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const usersCursus = (page, size) => call('/v2/cursus_users', 'GET', {
+const usersCursus = (page, size) => schedule(() => call('/v2/cursus_users', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
-const apps = (page, size) => call('/v2/apps', 'GET', {
+const apps = (page, size) => schedule(() => call('/v2/apps', 'GET', {
   'page[number]': page,
   'page[size]': size,
-});
+}));
 
 module.exports = {
   getCampus,
