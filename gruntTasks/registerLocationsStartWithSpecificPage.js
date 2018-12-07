@@ -1,13 +1,13 @@
 var async = require('async');
 var api = require('../app/libraries/api');
-var mysql = require('../app/libraries/mysql').client();
+var mysql = require('../app/libraries/mysql');
 var registerLocations = require('../app/functions/registerLocations');
 
 module.exports = (grunt) => {
   grunt.loadNpmTasks('grunt-extend-config');
   grunt.loadNpmTasks('grunt-prompt');
 
-  /*grunt.extendConfig({
+  grunt.extendConfig({
     prompt: {
       locationsPages: {
         options: {
@@ -19,45 +19,44 @@ module.exports = (grunt) => {
         }
       },
     },
-  });*/
+  });
 
   grunt.task.registerTask('register-locations-specific-pages', 'Fill locations table', function () {
-    /*if (!grunt.config('pageToStart')) {
+    if (!grunt.config('pageToStart') || !parseInt(grunt.config('pageToStart'), 10)) {
       return grunt.fail.fatal('Page to Start is mandatory');
-    }*/
+    }
 
     const done = this.async();
-    mysql.connect((error) => {
-      if (error) {
-        done(error);
-        return;
-      }
-      const pageSize = 50;
-      let page = 1;
-      let resLength = pageSize;
-      async.whilst(
-        () => resLength >= pageSize,
-        (callback) => {
-          api.getLocations(1497806, 14497806, page, pageSize)
-            .then((locations) => {
-              resLength = locations.length;
-              page += 1;
-              registerLocations(locations, mysql, (err) => callback(err));
-            })
-            .catch(err => {
-              if (err.message) {
-                console.log('WARN >>', err.message);
-              } else {
-                console.log('WARN >>', err);
-              }
-              callback();
-            });
-        },
-        (err) => {
-          mysql.end();
-          done(err);
-        }
-      );
-    });
+    mysql.client()
+      .then((connection) => {
+        const pageSize = 50;
+        let page = parseInt(grunt.config('pageToStart'), 10);
+        let resLength = pageSize;
+        async.whilst(
+          () => resLength >= pageSize,
+          (callback) => {
+            api.getLocations(page, pageSize)
+              .then((locations) => {
+                resLength = locations.length;
+                page += 1;
+                registerLocations(locations, connection)
+                  .then(() => callback())
+                  .catch(err => callback(err));
+              })
+              .catch(err => {
+                if (err.message) {
+                  grunt.log.writeln('WARN >>'['yellow'], err.message);
+                } else {
+                  grunt.log.writeln('WARN >>'['yellow'], err.message);
+                }
+                callback();
+              });
+          },
+          (err) => {
+            connection.end();
+            done(err);
+          }
+        );
+      }).catch(err => done(err));
   });
 };

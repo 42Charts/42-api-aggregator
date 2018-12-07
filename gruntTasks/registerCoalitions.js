@@ -1,5 +1,5 @@
 var api = require('../app/libraries/api');
-var mysql = require('../app/libraries/mysql').client();
+var mysql = require('../app/libraries/mysql');
 var registerCoalitions = require('../app/functions/registerCoalitions');
 
 module.exports = (grunt) => {
@@ -7,11 +7,12 @@ module.exports = (grunt) => {
     const done = this.async();
     api.getCoalitions()
       .then((coalitions) => {
-        mysql.then(connection => {
-          registerCoalitions(coalitions, connection)
-            .then(() => done())
-            .catch(err => done(err));
-        }).catch(err => done(err));
+        mysql.client()
+          .then(connection => {
+            registerCoalitions(coalitions, connection)
+              .then(() => done())
+              .catch(err => done(err));
+          }).catch(err => done(err));
       })
       .catch(err => done(err));
   });
