@@ -25,18 +25,20 @@ then in your file add the following keys
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
-DB_NAME=42Charts
+DB_NAME=myDB
 FT_API_ENDPOINT=https://api.intra.42.fr
 FT_API_UID=MY_APP_UID
 FT_API_SECRET=MY_APP_SECRET
-FT_API_RATE_LIMIT_PER_SECOND=1.9
-FT_API_RATE_LIMIT_PER_HOUR=1150
+FT_API_RATE_LIMIT_PER_SECOND=1.8
+FT_API_RATE_LIMIT_PER_HOUR=1200
 ```
 
 ### (Start)
 
 $> `npm run scripts` or `grunt`
 
+note: not all tasks are in the prompt, to see all available tasks run `grunt --help`
+to run a specific tasks you can run `grunt init-database` where `grunt specific-task`
 
 ## License
 
