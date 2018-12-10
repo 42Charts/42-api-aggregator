@@ -1,5 +1,5 @@
 {
-  "name": "42-charts-database-manager",
+  "name": "42-api-aggregator",
   "version": "0.0.1",
   "private": false,
   "description": "A 42's api scrapper used as database manager for 42-charts",
@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yfuks/42-charts-database-manager.git"
+    "url": "git+https://github.com/42Charts/42-api-aggregator.git"
   },
   "author": "yfuks",
   "bugs": {
-    "url": "https://github.com/yfuks/42-charts-database-manager/issues"
+    "url": "https://github.com/42Charts/42-api-aggregator/issues"
   },
-  "homepage": "https://github.com/yfuks/42-charts-database-manager#readme",
+  "homepage": "https://github.com/42Charts/42-api-aggregator/#readme",
   "dependencies": {
     "async": "^2.6.1",
     "bottleneck": "^2.11.2",
