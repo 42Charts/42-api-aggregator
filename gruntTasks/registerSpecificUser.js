@@ -1,6 +1,6 @@
 var async = require('async');
 var api = require('../app/libraries/api');
-var mysql = require('../app/libraries/mysql').client();
+var mysql = require('../app/libraries/mysql');
 var registerUser = require('../app/functions/registerUser');
 
 module.exports = (grunt) => {
@@ -26,23 +26,20 @@ module.exports = (grunt) => {
       return grunt.fail.fatal('User ID is mandatory');
     }
     const done = this.async();
-    mysql.connect((error) => {
-      if (error) {
-        done(error);
-        return;
-      }
-      api.getUser(grunt.config('userId'))
-        .then((userInfos) => {
-          registerUser(userInfos, mysql, (err) => done(err));
-        })
-        .catch(err => {
-          if (err.message) {
-            grunt.log.writeln('WARN >>'['yellow'], err.message);
-          } else {
-            grunt.log.error(err);
-          }
-          done();
-        });
-    }, (err) => done(err));
+    mysql.client()
+      .then((connection) => {
+        api.getUser(grunt.config('userId'))
+          .then((userInfos) => registerUser(userInfos, connection))
+          .then(() => done())
+          .catch(err => {
+            if (err.message) {
+              grunt.log.writeln('WARN >>'['yellow'], err.message);
+            } else {
+              grunt.log.error(err);
+            }
+            done();
+          });
+      })
+      .catch(err => done(err));
   });
 };

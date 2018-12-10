@@ -116,12 +116,11 @@ const getUsersCampus = (page, size) => schedule(() => call('/v2/campus_users', '
   'page[size]': size,
 }));
 
-const getLocations = (minId, maxId, page, size) => schedule(() => call('/v2/locations', 'GET', {
+const getLocations = (page, size) => schedule(() => call('/v2/locations', 'GET', {
   'filter[end]': true, // get only finished locations
   sort: 'id', // get older first
   'page[number]': page,
   'page[size]': size,
-  'range[id]': `${minId},${maxId}`
 }));
 
 const getAchievements = (page, size) => schedule(() => call('/v2/achievements', 'GET', {

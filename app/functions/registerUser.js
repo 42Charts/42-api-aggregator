@@ -1,8 +1,8 @@
 var moment = require('moment');
 
-const registerUserAchievements = (usersAchievements, db, userId, cb) => {
+const registerUserAchievements = (usersAchievements, userId, DBconnection) => new Promise ((resolve, reject) => {
   if (!usersAchievements || !usersAchievements.length) {
-    return cb();
+    return resolve();
   }
   let query = 'INSERT IGNORE INTO USERSACHIEVEMENTS (userID, achievementID) VALUES ?';
   let values = [];
@@ -12,14 +12,14 @@ const registerUserAchievements = (usersAchievements, db, userId, cb) => {
       usersAchievement.id,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
-};
+  DBconnection.query(query, [values])
+    .then(() => resolve())
+    .catch(err => reject(err));
+});
 
-const registerUserCursus = (cursusUsers, db, cb) => {
+const registerUserCursus = (cursusUsers, DBconnection) => new Promise ((resolve, reject) => {
   if (!cursusUsers || !cursusUsers.length) {
-    return cb();
+    return resolve();
   }
   let query = 'INSERT IGNORE INTO USERSCURSUS (id, grade, userID, cursusID, level, beginAt, endAt) VALUES ?';
   let values = [];
@@ -42,14 +42,14 @@ const registerUserCursus = (cursusUsers, db, cb) => {
       endAt,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
-};
+  DBconnection.query(query, [values])
+    .then(() => resolve())
+    .catch(err => reject(err));
+});
 
-const registerUserProjects = (usersProjects, db, userId, cb) => {
+const registerUserProjects = (usersProjects, userId, DBconnection) => new Promise ((resolve, reject) => {
   if (!usersProjects || !usersProjects.length) {
-    return cb();
+    return resolve();
   }
   let query = 'INSERT IGNORE INTO USERSPROJECTS (id, projectID, userID, status, validated, finalMark, markedAt, retries) VALUES ?';
   let values = [];
@@ -70,14 +70,14 @@ const registerUserProjects = (usersProjects, db, userId, cb) => {
       project.occurrence,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
-};
+  DBconnection.query(query, [values])
+    .then(() => resolve())
+    .catch(err => reject(err));
+});
 
-const registerUserCampus = (campusUsers, db, cb) => {
+const registerUserCampus = (campusUsers, DBconnection) => new Promise ((resolve, reject) => {
   if (!campusUsers || !campusUsers.length) {
-    return cb();
+    return resolve();
   }
   let query = 'INSERT IGNORE INTO USERSCAMPUS (ID, userID, campusID, isPrimary) VALUES ?';
   let values = [];
@@ -89,12 +89,12 @@ const registerUserCampus = (campusUsers, db, cb) => {
       userCampus.is_primary,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
-};
+  DBconnection.query(query, [values])
+    .then(() => resolve())
+    .catch(err => reject(err));
+});
 
-const registerUser = (user, db, cb) => {
+const registerUser = (user, DBconnection) => {
   let query = 'INSERT IGNORE INTO USERS (id, firstname, lastname, displayname, imageUrl, url, login, staff, poolMonth, poolYear) VALUES ?';
   let values = [];
   values.push([
@@ -109,34 +109,12 @@ const registerUser = (user, db, cb) => {
     user.pool_month,
     user.pool_year,
   ]);
-  db.query(query, [values], (err, result) => {
-    if (err) {
-      return cb(err, result);
-    }
-    db.query('SET FOREIGN_KEY_CHECKS = 0', (err, result) => {
-      if (err) {
-        return cb(err, result);
-      }
-      registerUserCursus(user.cursus_users, db, (err, result) => {
-        if (err) {
-          return cb(err, result);
-        }
-        registerUserProjects(user.projects_users, db, user.id, (err, result) => {
-          if (err) {
-            return cb(err, result);
-          }
-          registerUserCampus(user.campus_users, db, (err, result) => {
-            if (err) {
-              return cb(err, result);
-            }
-            registerUserAchievements(user.achievements, db, user.id, (err, result) => {
-              cb(err, result);
-            });
-          });
-        });
-      });
-    });
-  });
+  return DBconnection.query(query, [values])
+    .then(() => DBconnection.query('SET FOREIGN_KEY_CHECKS = 0'))
+    .then(() => registerUserCursus(user.cursus_users, DBconnection))
+    .then(() => registerUserProjects(user.projects_users, user.id, DBconnection))
+    .then(() => registerUserCampus(user.campus_users, DBconnection))
+    .then(() => registerUserAchievements(user.achievements, user.id, DBconnection));
 };
 
 module.exports = registerUser;

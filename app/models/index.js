@@ -14,7 +14,6 @@ const rows = require('./rows');
 const usersTokens = require('./usersTokens');
 const achievements = require('./achievements');
 const usersAchievements = require('./usersAchievements');
-const levels = require('./levels');
 const usersCoalitions = require('./usersCoalitions');
 const apps = require('./apps');
 const messages = require('./messages');
@@ -43,7 +42,6 @@ const models = [
   usersTokens, // would be done in api
   usersAchievements,
   locations, // done
-  levels,
   usersCoalitions,
   apps,
   messages,

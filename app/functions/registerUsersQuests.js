@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const registerUsersQuests = (usersQuests, db, cb) => {
+const registerUsersQuests = (usersQuests, DBconnection) => {
   let query = 'INSERT IGNORE INTO QUESTS (id, name, kind, description, cursusID, position) VALUES ?';
   let values = [];
   usersQuests.forEach((userQuests) => {
@@ -13,8 +13,9 @@ const registerUsersQuests = (usersQuests, db, cb) => {
       userQuests.quest.position
     ]);
   });
-  db.query('SET FOREIGN_KEY_CHECKS = 0', (err, result) => {
-    db.query(query, [values], (err, result) => {
+  DBconnection.query('SET FOREIGN_KEY_CHECKS = 0')
+    .then(() => DBconnection.query(query, [values]))
+    .then(() => {
       query = 'INSERT IGNORE INTO USERSQUESTS (id, questID, userID, percent, advancement, validated, end) VALUES ?';
       values = [];
       let validated = null;
@@ -40,11 +41,8 @@ const registerUsersQuests = (usersQuests, db, cb) => {
           end,
         ]);
       });
-      db.query(query, [values], (err, result) => {
-        cb(err, result);
-      });
+      return DBconnection.query(query, [values]);
     });
-  });
 };
 
 module.exports = registerUsersQuests;

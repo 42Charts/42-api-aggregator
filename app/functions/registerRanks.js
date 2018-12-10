@@ -1,33 +1,27 @@
-async = require('async');
-
-const global = (ranks, db, cb) => {
+const global = (ranks, DBconnection) => {
   let query = 'UPDATE USERS SET allRank=?, updated=now() WHERE ID=?';
-  async.each(ranks, (rank, callback) => {
-    values = [
+  const proms = [];
+  ranks.forEach((rank) => {
+    const values = [
       rank.rank,
       rank.userID,
     ];
-    db.query(query, values, (err, result) => {
-      callback(err, result);
-    });
-  }, (err) => {
-    cb(err);
+    proms.push(DBconnection.query(query, values));
   });
+  return Promise.all(proms);
 };
 
-const byPromo = (ranks, db, cb) => {
+const byPromo = (ranks, DBconnection) => {
   let query = 'UPDATE USERS SET promoRank=?, updated=now() WHERE ID=?';
-  async.eachLimit(ranks, 5, (rank, callback) => {
-    values = [
+  const proms = [];
+  ranks.forEach((rank) => {
+    const values = [
       rank.rank,
       rank.userID,
     ];
-    db.query(query, values, (err, result) => {
-      callback(err, result);
-    });
-  }, (err) => {
-    cb(err);
+    proms.push(DBconnection.query(query, values));
   });
+  return Promise.all(proms);
 };
 
 module.exports = { global, byPromo };

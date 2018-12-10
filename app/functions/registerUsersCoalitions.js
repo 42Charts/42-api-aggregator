@@ -1,6 +1,4 @@
-const async = require('async');
-
-const registerUsersCoalitions = (usersCoalitions, db, cb) => {
+const registerUsersCoalitions = (usersCoalitions, DBconnection) => {
   let query = 'INSERT IGNORE INTO USERSCOALITIONS (id, userID, coalitionID, score, rank) VALUES ?';
   let values = [];
   usersCoalitions.forEach((userCoalitions) => {
@@ -12,11 +10,8 @@ const registerUsersCoalitions = (usersCoalitions, db, cb) => {
       userCoalitions.rank,
     ]);
   });
-  db.query('SET FOREIGN_KEY_CHECKS = 0', (err, result) => {
-    db.query(query, [values], (err, result) => {
-      cb(err, result);
-    });
-  });
+  return DBconnection.query('SET FOREIGN_KEY_CHECKS = 0')
+    .then(() => DBconnection.query(query, [values]));
 };
 
 module.exports = registerUsersCoalitions;

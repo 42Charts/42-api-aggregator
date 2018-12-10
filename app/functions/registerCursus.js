@@ -1,4 +1,4 @@
-const registerCursus = (cursus, db, cb) => {
+const registerCursus = (cursus, DBconnection) => {
   let query = 'INSERT IGNORE INTO CURSUS (id, name) VALUES ?';
   let values = [];
   cursus.forEach((cur) => {
@@ -7,9 +7,7 @@ const registerCursus = (cursus, db, cb) => {
       cur.name,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
+  return DBconnection.query(query, [values]);
 };
 
 module.exports = registerCursus;

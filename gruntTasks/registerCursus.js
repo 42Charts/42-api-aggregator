@@ -1,5 +1,5 @@
 var api = require('../app/libraries/api');
-var mysql = require('../app/libraries/mysql').client();
+var mysql = require('../app/libraries/mysql');
 var registerCursus = require('../app/functions/registerCursus');
 
 module.exports = (grunt) => {
@@ -7,19 +7,13 @@ module.exports = (grunt) => {
     const done = this.async();
     api.getCursus()
       .then((cursus) => {
-        mysql.connect((error) => {
-          if (error) {
-            done(error);
-            return;
-          }
-          registerCursus(cursus, mysql, (err) => {
-            done(err);
-          });
-        });
+        mysql.client()
+          .then(connection => {
+            registerCursus(cursus, connection)
+              .then(() => done())
+              .catch(err => done(err));
+          }).catch(err => done(err));
       })
-      .catch(err => {
-        mysql.end();
-        done(err);
-      });
+      .catch(err => done(err));
   });
 };

@@ -1,4 +1,4 @@
-const registerCoalitions = (coalitions, db, cb) => {
+const registerCoalitions = (coalitions, DBconnection) => {
   let query = 'INSERT IGNORE INTO COALITIONS (id, name, score, color, imageUrl) VALUES ?';
   let values = [];
   coalitions.forEach((coalition) => {
@@ -10,9 +10,7 @@ const registerCoalitions = (coalitions, db, cb) => {
       coalition.image_url,
     ]);
   });
-  db.query(query, [values], (err, result) => {
-    cb(err, result);
-  });
+  return DBconnection.query(query, [values]);
 };
 
 module.exports = registerCoalitions;
